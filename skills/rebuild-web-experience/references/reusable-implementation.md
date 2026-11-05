@@ -1,0 +1,82 @@
+# Reusable implementation
+
+## Design around the agreed feature
+
+Use the user's output stack or the existing project's conventions. Organize
+source by responsibilities that correspond to likely edits: appearance/data,
+interaction, animation, rendering and host integration. The quantity and names
+of original chunks do not determine the maintained module structure.
+
+Keep one implementation for a feature that appears both in the complete page
+and as a reusable component. Supply page-specific state, navigation and content
+through an adapter. Avoid copying a second animation or renderer that can drift
+from the first.
+
+Expose only the interfaces the feature needs. For a DOM/canvas effect, a useful
+shape is `mount(target, options)` returning `update(...)` and `destroy()`, with
+`pause()`, `resume()`, `resize()` or a readiness promise where warranted. React
+components may use props/effects and unmount for the same ownership contract.
+These are examples, not a mandatory API for every type of frontend.
+
+## Prove isolation
+
+A reusable module should:
+
+- Import without mounting UI, starting routing or requiring the full app boot.
+- Mount on an arbitrary supported host without unrelated page IDs or globals.
+- Own its mutable state, input subscriptions, active work and allocated resources.
+- Take content, resource locations and navigation callbacks from the host.
+- Dispose its work without stopping or altering other mounted instances.
+
+Shared immutable code, data and framework dependencies are normal. A shared
+mutable cache, animation scheduler or renderer needs explicit ownership rules.
+Multiple-instance tests are relevant when the public API allows multiple mounts.
+If a feature intentionally permits only one global owner, document that limit
+instead of promising independent instances.
+
+Keep CSS scoped to the component/host. A global stylesheet, pointer listener,
+wheel preventDefault, or document-level scroll reset can make a module appear
+independent while still taking over other pages. Listen at the appropriate
+scope and remove owned listeners on destruction.
+
+## Preserve lifecycle semantics
+
+Input handling often has a per-frame lifecycle: sampling, update and clearing
+transient deltas. Preserve all phases when extracting a frame loop. Verify that
+one input ends and that input during pause does not accumulate into an unwanted
+jump after resume.
+
+For animation, inspect existing active controllers as well as newly created
+ones. Pause/resume must reach the controllers already running. State or parent
+render changes can restart loops even when values appear unchanged; compare
+the intended interaction and avoid unrelated rerenders changing its phase.
+
+Asynchronous mounts need cancellation and late-result handling. Cleanup must
+cover an instance removed before an asset, SDK, permission or other promise
+completes. Readiness must reflect real resources and initialization. A failed
+request or timeout should produce an observable failure and appropriate retry
+behavior, not synthetic success.
+
+Cleanup applies to owned RAF/timers, subscriptions, observers, pending requests,
+temporary URLs, DOM/style nodes, and GPU/media resources as applicable. Verify
+cleanup by continuing another instance or remounting; checking that one DOM
+element disappeared does not establish that work stopped.
+
+## Separate customization from host integration
+
+Expose the user's requested routine edits as data, CSS variables, props or
+options when this simplifies use. Keep deeper algorithms as readable source.
+Document both kinds of customization; editable source does not imply every
+parameter needs a visual settings panel.
+
+Use a build system that fits the output. If using ESM/import maps, provide the
+map before consumers and verify imports in the real host. Generated assets
+may be bundled or minified; keep authoring sources and build steps distinct.
+Changing one feature should have a clear maintenance entry even when a build
+legitimately updates shared outputs.
+
+Keep backend calls and platform integration in explicit adapters. Use fixtures
+or mocks for unrequested external submissions and state their scope. Publishing,
+payments, subscription submissions or changes to live account settings are
+separate actions requiring the user's authorization; local reconstruction does
+not require those actions to prove the feature works.
