@@ -16,15 +16,17 @@ Judge the requested scope against observable results:
 
 Track the visible features identified from the reference in the project's normal
 notes. For each, record the original state/input, rebuilt result, comparison
-evidence and status: passed, incomplete, unverified, or explicitly excluded by
+evidence and status: passed, failed, unverified, or explicitly excluded by
 the user. Keep this proportional to scope; a small component needs only a short
 list. A successful build or a list of files cannot substitute for these results.
 
 An omitted effect, changed animation order, wrong scroll interval, unintended
 clipping/overlap or materially different typography/color keeps the relevant
-criterion incomplete. Recording a limitation does not pass it. Complete the
-remaining frontend work or state that delivery is partial. Distinguish this
-from optional device/service checks outside the agreed scope.
+criterion incomplete. Recording a limitation does not pass it. Resolve failures
+through the independent review loop; declare completion only after all required
+criteria pass on the current candidate. A genuine blocker may end a work session
+with an incomplete status, never a completed delivery. Optional device/service
+checks outside the agreed scope do not become required completion gates.
 
 Scale evidence to the request. For a data-driven card effect, test requested
 addition, deletion and reordering, plus longer text or changed sizing when
@@ -108,4 +110,5 @@ Keep current authoring source and generated outputs unambiguous. Preserve a
 bounded baseline and concise evidence as appropriate, and clean up owned
 temporary servers/browser sessions. Finish when the agreed criteria are met;
 retain optional unverified items as limits rather than silently expanding the
-completion standard.
+completion standard. Apply the final gate in [Independent review loop](review-loop.md)
+before claiming completion.

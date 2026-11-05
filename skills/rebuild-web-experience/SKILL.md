@@ -42,8 +42,10 @@ reference; the user need not enumerate them. Keep the surrounding page outside
 the deliverable except for dependencies needed to preserve the selected effect.
 
 Read [Acceptance and handoff](references/acceptance.md) before implementation.
-Use its feature checks to guide the working slice and final comparison. Exact
-pixel equality across devices, real third-party submissions and production
+Use its feature checks to guide the working slice and final comparison. Read
+[Independent review loop](references/review-loop.md) to prepare the acceptance
+contract and arrange independent review before starting the final candidate.
+Exact pixel equality across devices, real third-party submissions and production
 publishing remain additional tasks only when requested. That distinction does
 not permit missing effects, different motion or visibly different layouts.
 
@@ -139,14 +141,34 @@ Apply the acceptance checks to the working slice and final delivery. Match test
 effort to behavior and uncertainty; investigate differences before adding more
 checks or accepting a tolerance.
 
-## Finish at the agreed level
+## Close the acceptance loop
+
+Submit the current candidate to a separate reviewer agent/session using the
+original request, this Skill, applicable project instructions and actual runtime.
+The reviewer checks the full required scope and gathers evidence directly.
+Return failed or unverified required items to implementation, fix them, then
+obtain independent re-review of the changed candidate and affected regressions.
+Repeat until every required criterion passes; preserve the agreed standards.
+
+Follow [Independent review loop](references/review-loop.md) for the review packet,
+failure records, revision tracking and executable completion check. If independent
+review or a required check is unavailable, continue useful authorized work and
+report the remaining blocker as incomplete. Self-review is useful preparation;
+it cannot satisfy the independent-review gate.
+
+## Deliver after acceptance
+
+Declare completion and hand off a finished reconstruction only after independent
+review and the completion check pass for the current candidate. A progress or
+blocked report may describe existing artifacts, but must retain failed/unverified
+items and must not claim the reconstruction is complete.
 
 Deliver maintained source/assets, appropriate build/start and preview commands,
 documented customization locations, public usage examples, and the relevant
 verification results. Keep one clear development entry and remove superseded
 generated copies only after confirming they are unused and recoverable.
 
-Report the working scope, demonstrated customization/reuse, and material gaps.
+Report the accepted scope, demonstrated customization/reuse, and review result.
 Separate reconstructed frontend behavior from simulated or unverified services.
 A URL reveals delivered frontend resources and observable behavior; unavailable
 server logic needs an explicit implementation or adapter. Finish the agreed

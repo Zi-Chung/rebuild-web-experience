@@ -4,6 +4,20 @@ These synthetic, locally served pages exercise the reconstruction workflow.
 They are maintenance fixtures, outside the installable skill. They contain no
 captured merchant data or third-party website code.
 
+## Acceptance gate
+
+Run `node --test evals/acceptance-gate.test.mjs`. These CLI tests exercise the
+gate with real temporary files: failure/repair, missing criteria, self-review,
+stale source/contract/evidence and optional unverified coverage. They validate
+the record checker, not the truth of visual judgments or reviewer identity.
+
+To evaluate the full review loop, give a fresh agent a bounded reference,
+existing candidate and the Skill. Start with independent review, repair the
+findings, then obtain independent re-review and a passing gate on the changed
+candidate. Preserve failed-round and passed-round records. A failure reported
+by the same implementer or a hand-edited green report does not demonstrate the
+independent loop. Keep expected diagnoses out of the reviewer's initial packet.
+
 ## Graphics in an existing host
 
 Run `python3 evals/graphics-host/serve.py` from the repository root. The first
