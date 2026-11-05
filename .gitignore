@@ -3,3 +3,6 @@ node_modules/
 .agents/
 .codex/
 skills-lock.json
+evals/graphics-host/output*/
+evals/graphics-host/rebuild*/
+__pycache__/

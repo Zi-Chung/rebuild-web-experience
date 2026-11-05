@@ -28,16 +28,30 @@ A reusable module should:
 - Take content, resource locations and navigation callbacks from the host.
 - Dispose its work without stopping or altering other mounted instances.
 
+Declare the supported host baseline and supply its required styles/assets or
+platform adapter. A minimal reuse host includes those declared prerequisites
+and excludes the original application boot. Verify platform-specific output in
+a representative platform fixture as well; a generic DOM mock cannot prove CMS
+block rendering or editor integration.
+
 Shared immutable code, data and framework dependencies are normal. A shared
 mutable cache, animation scheduler or renderer needs explicit ownership rules.
 Multiple-instance tests are relevant when the public API allows multiple mounts.
 If a feature intentionally permits only one global owner, document that limit
 instead of promising independent instances.
 
-Keep CSS scoped to the component/host. A global stylesheet, pointer listener,
-wheel preventDefault, or document-level scroll reset can make a module appear
-independent while still taking over other pages. Listen at the appropriate
-scope and remove owned listeners on destruction.
+Verify style isolation in both directions. Scope component rules and establish
+the inherited defaults it relies on: font/line height, margins, box sizing,
+colors and stacking/overflow behavior. A selector prefix prevents some outward
+leaks but does not prevent host styles from changing the component. Exercise
+the actual host's defaults, not only an otherwise empty page.
+Establish display/visibility for intentionally empty decorative nodes when host
+rules would otherwise hide them.
+
+A global stylesheet, pointer listener, wheel preventDefault or document-level
+scroll reset can make a module appear independent while still taking over
+other pages. Listen at the appropriate scope and remove owned listeners on
+destruction.
 
 ## Preserve lifecycle semantics
 
@@ -68,6 +82,13 @@ Expose the user's requested routine edits as data, CSS variables, props or
 options when this simplifies use. Keep deeper algorithms as readable source.
 Document both kinds of customization; editable source does not imply every
 parameter needs a visual settings panel.
+
+Requested content edits must preserve the effect. Recompute derived geometry,
+scroll ranges and animation ownership after relevant content/size changes.
+Handle supported counts and ordering rather than retaining original fixed-item
+assumptions. State real supported limits and verify them against the requested
+operations. For CMS/block output, verify the supplied blocks and lifecycle in
+the host convention; adding a public JavaScript API is not a substitute.
 
 Use a build system that fits the output. If using ESM/import maps, provide the
 map before consumers and verify imports in the real host. Generated assets

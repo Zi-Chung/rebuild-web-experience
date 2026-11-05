@@ -7,6 +7,13 @@ requests. Follow lazy imports through the in-scope states; an initial-page
 download alone can omit most of a feature. Retain resource versions and source
 identities so later comparisons use a known reference.
 
+Map visible features to DOM/CSS, canvas/WebGL and any shared scene or scroll
+controller. Follow masks, background transitions, screen-space paint, geometry
+and postprocessing needed to produce the selected region. Extract or adapt
+these dependencies locally; selecting a region does not make its shared
+rendering dependencies disappear. Compare an alternative implementation against
+the same visible states before accepting it as equivalent.
+
 Follow source maps declared by the resource or supplied with the target. When
 none are advertised, make extra probes only to answer a specific recovery
 question; absence of a map is not a reason to enumerate unrelated paths or stop.
@@ -67,6 +74,21 @@ format negotiation changes the input. Do not ship temporary source-site
 credentials, analytics, or a dependency on the original website for resources
 that the delivered project is intended to own.
 
+## Scroll and layout semantics
+
+Preserve the meaning of animation inputs before reusing formulas or thresholds:
+viewport versus container coordinates, element and viewport dimensions, native
+versus transformed scroll, normalized ranges, time units and easing domains.
+Trace where each progress value is computed. A similarly named ratio is not
+evidence of equivalent inputs.
+
+Include layout that provides animation time: spacers, sticky ranges, margins,
+pinning and release points. Adapt that geometry to the reusable host while
+preserving the intended sequence and room for following content. Verify forward
+and reverse motion, resize and requested content edits. When measuring layout,
+use stable model dimensions or remove/reset active transforms before measuring;
+transformed bounds can feed animation back into its own size calculations.
+
 ## Canvas, WebGL and shaders
 
 Separate shader source into editable native files when shaders are in scope.
@@ -75,9 +97,10 @@ lookup tables and geometry buffers are data; group them by responsibility
 rather than inventing a separate module for every datum.
 
 Trace the whole rendering path: geometry, simulation inputs, uniforms,
-camera/input, shader programs and postprocessing. A draw shader alone does not
-account for particle behavior. Preserve numeric texture encodings; a CDN's
-lossy image conversion can change an otherwise correct effect.
+camera/input, shader programs, compositing and postprocessing. Include dynamic
+backgrounds and decorations drawn outside the selected DOM subtree. A draw
+shader alone does not account for particle behavior. Preserve numeric texture
+encodings; a CDN's lossy image conversion can change an otherwise correct effect.
 
 Check actual WebGL context and required capabilities. Validate positive draws
 before comparing images: two empty frames are not proof of equivalent shaders.

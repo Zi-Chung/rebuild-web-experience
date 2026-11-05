@@ -7,17 +7,32 @@ Judge the requested scope against observable results:
 | Criterion | Evidence |
 | --- | --- |
 | Runs | The delivered entry builds/starts using the documented commands and renders the intended content/effect. |
-| Matches the scoped appearance | Compare layout, assets, typography/colors and important animation states at the agreed viewport(s); document material differences. Exact pixel equality is required only if requested. |
+| Matches the scoped appearance | Compare layout, assets, typography/colors, backgrounds and decorations in relevant animation states at the agreed viewport(s). Material omissions or mismatches remain incomplete; exact pixel equality is required only if requested. |
 | Behaves | Relevant input, state changes, navigation and requested responsive states work in the tested host. |
 | Is maintained source | The runtime uses the rebuilt implementation; original opaque application fallbacks are accounted for and absent for features claimed as reconstructed. |
-| Can be customized | A representative requested edit is made in its documented source/config location, built if needed, and observed in the browser. |
+| Can be customized | Requested edits are made in their documented source/config location and observed in the browser; affected layout, animation and surrounding content remain correct after the edits. |
 | Can be reused | The public feature runs in a minimal host without full-app initialization, and its lifecycle works. |
 | Can be handed off | Sources, required assets/dependencies, commands, customization locations and usage examples are supplied. |
 
-Scale evidence to the request. For example, a card effect may need text/color/
-spacing edits and pointer behavior; a particle effect may need a supported
-appearance/behavior parameter or shader change. Use meaningful probes, keep
-the intended final result, and restore temporary test edits.
+Track the visible features identified from the reference in the project's normal
+notes. For each, record the original state/input, rebuilt result, comparison
+evidence and status: passed, incomplete, unverified, or explicitly excluded by
+the user. Keep this proportional to scope; a small component needs only a short
+list. A successful build or a list of files cannot substitute for these results.
+
+An omitted effect, changed animation order, wrong scroll interval, unintended
+clipping/overlap or materially different typography/color keeps the relevant
+criterion incomplete. Recording a limitation does not pass it. Complete the
+remaining frontend work or state that delivery is partial. Distinguish this
+from optional device/service checks outside the agreed scope.
+
+Scale evidence to the request. For a data-driven card effect, test requested
+addition, deletion and reordering, plus longer text or changed sizing when
+editable. Exercise supported counts that change layout, including empty/single
+states when allowed. Verify downstream content and animation after changes;
+configuration fields alone do not prove customization. A particle effect may
+instead need appearance/behavior parameters or a shader change. Keep the
+intended final result and restore temporary test edits.
 
 Do not mark a criterion passed because a directory exists or a named export
 can be imported. Exercise the path from an authoring change to rendered output.
@@ -26,10 +41,18 @@ or instance isolation when those capabilities are offered.
 
 ## Compare behavior without expanding the assignment
 
-Observe initial, transition and settled states relevant to the feature. Check
-positive visibility and activity before using screenshots as evidence. A blank
-overlay, unsupported shader context or duplicate animation callback key can
-produce misleading equality.
+Observe entry, transition, settled and exit states relevant to the feature;
+check reverse scroll/input, resizing and responsive changes when they affect
+its behavior. Align the reference and reconstruction by component state and
+input, with matching viewport and loaded resources. Equal page scroll distances
+can represent different animation phases in different hosts.
+
+Check positive visibility and activity before using screenshots as evidence.
+An offscreen component, blank overlay, unsupported shader context or duplicate
+animation callback key can produce misleading equality. DOM geometry alone
+does not establish that a canvas effect renders correctly. If a required state
+cannot be reached, record a failure or unverified state rather than comparing
+unrelated frames as equivalent.
 
 Use repeatable input and fixed data where helpful. When controlling time or
 randomness, first replay the reference against itself. Preserve unique identity
@@ -56,6 +79,13 @@ that will use the feature. A standalone extraction page is useful during
 development but does not establish that an existing theme/app uses the new code.
 Where stale deployed assets are plausible, compare downloaded content with the
 current build or use an equally direct source-change probe.
+
+Exercise the host's normal styles and content before/after the component.
+Verify both that the component keeps its intended appearance and that the host
+remains intact. For CMS integrations, exercise the relevant add/remove/reload
+events without saving unrequested configuration. When access prevents actual
+host verification, identify that missing evidence; an isolated preview only
+proves the context it ran in.
 
 Keep automated interaction within the selected target and avoid unrequested
 real submissions. A mocked backend can validate the frontend integration

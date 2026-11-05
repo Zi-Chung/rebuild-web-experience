@@ -1,12 +1,12 @@
 ---
 name: rebuild-web-experience
-description: Reconstruct a website, scoped page, component, interaction, or visual effect from a URL into a runnable, editable, independently reusable frontend project. Use for web reverse engineering and reconstruction from delivered HTML/CSS/JavaScript or observed behavior. Supports existing projects and standalone output; REA is optional. Use ordinary repository workflows for changes already covered by available source.
+description: Reconstruct a website, scoped page, component, interaction, or visual effect from a URL into a frontend project that preserves its appearance and behavior and is runnable, editable, and independently reusable. Use for web reverse engineering and reconstruction from delivered HTML/CSS/JavaScript or observed behavior. Supports existing projects and standalone output; REA is optional. Use ordinary repository workflows for changes already covered by available source.
 ---
 
 # Rebuild Web Experience
 
-Deliver a frontend the user can run, change, and reuse. Match the requested
-appearance and behavior while giving each requested feature an understandable
+Deliver a frontend that preserves the scoped appearance and behavior and that
+the user can run, change, and reuse. Give each requested feature an understandable
 maintenance entry point. A running copy of an opaque original application is
 an intermediate reference, not the finished reconstruction.
 
@@ -16,10 +16,16 @@ Accept a URL and a bounded scope: routes, a page region, an effect, interactions
 or a combination. Resolve the scope from the conversation before asking again.
 Record these in the project's normal documentation:
 
-- Target URL and included routes/components, with important visible states.
+- Target URL and included routes/components, with important visible states and
+  explicit exclusions.
 - Behaviors to preserve and aspects the user needs to customize.
 - Output location/stack, reuse needs, and target viewport(s).
+- Delivery constraints, such as files to supply and host configuration to leave
+  for the user.
 - External services that need an adapter, local substitute, or further access.
+
+When viewports are unspecified, choose representative sizes from the reference's
+layouts and record them as test assumptions rather than blocking on a reply.
 
 Use an existing project's conventions when integrating. For a new project,
 choose the smallest suitable frontend stack if none is requested. A plain DOM
@@ -28,10 +34,18 @@ reasonable defaults and ask only when a missing decision materially affects
 the implementation or access. A region-only request includes its necessary
 dependencies, not an unsolicited rebuild of the surrounding site.
 
-The default acceptance level is **usable, customizable, independently reusable**.
-Pixel-identical frames across every device, real third-party submissions, and
-production publishing are additional tasks only when requested. Preserve the
-user's stricter requirements when they explicitly specify them.
+The default acceptance level requires **scoped visual and behavioral fidelity,
+working execution, customization, and independent reuse** together. A selected
+region includes its visible backgrounds, decorations, transitions and input
+responses even when the user names only its endpoints. Discover these from the
+reference; the user need not enumerate them. Keep the surrounding page outside
+the deliverable except for dependencies needed to preserve the selected effect.
+
+Read [Acceptance and handoff](references/acceptance.md) before implementation.
+Use its feature checks to guide the working slice and final comparison. Exact
+pixel equality across devices, real third-party submissions and production
+publishing remain additional tasks only when requested. That distinction does
+not permit missing effects, different motion or visibly different layouts.
 
 Example request:
 
@@ -56,19 +70,24 @@ is required.
 
 ## Capture a bounded reference
 
-Observe the specified states: initial and settled views, relevant input,
-navigation and responsive changes. Preserve only the resources and dependency
-closure needed for the scope. Record original URLs and content identities for
-assets used in the reconstruction; keep original artifacts separate from
-maintained source and from the final runtime.
+Observe entry, transition, settled and exit states relevant to the feature,
+including reverse input and responsive changes where they affect it. Record a
+compact feature list linking each visible result to its rendering owner and
+needed dependencies. A DOM outline can be a placeholder for canvas output;
+identify which layer actually draws the effect before choosing an approach.
+
+Preserve only the resources and dependency closure needed for the scope. Record
+original URLs and content identities for assets used in the reconstruction;
+keep original artifacts separate from maintained source and the final runtime.
 
 Record resource errors before changing behavior so inherited failures can be
 distinguished from reconstruction regressions. Request access only for blocked
 parts and continue useful work on accessible parts. Inspect only the selected
 site/session. Do not acquire unrelated pages or private account data.
 
-For minified bundles, dependency identification, shaders, data textures, or
-resource URL failures, read [Artifact recovery](references/artifact-recovery.md).
+For minified bundles, dependency identification, canvas/WebGL, scroll-driven
+effects, shaders, data textures or resource URL failures, read
+[Artifact recovery](references/artifact-recovery.md) before extracting the effect.
 
 ## Reconstruct a working slice
 
@@ -84,11 +103,16 @@ possible; identify uncertain/custom implementations honestly. Keep algorithms
 whose behavior matters rather than silently replacing a difficult effect with
 a visually different approximation.
 
-Expand until all agreed states and features work. Choose recovery or a new
-implementation per feature based on available code and observed behavior;
-document material substitutions and limitations. Describe inferred names and
-structure as reconstructed. Attribute original source only when available
-artifacts substantiate it; backend internals need separate evidence.
+Expand until the in-scope features pass their visual and behavioral checks.
+Choose recovery or a new implementation per feature based on available code
+and observed behavior. Implementation changes may preserve the same result;
+material visual or behavioral differences keep the feature incomplete even
+when documented. Continue resolving them, and report any remaining gap plainly.
+Only a user-approved scope change removes an included effect from acceptance.
+
+Describe inferred names and structure as reconstructed. Attribute original
+source only when available artifacts substantiate it; backend internals need
+separate evidence.
 
 For feature boundaries, isolated instances, styling and resource ownership,
 read [Reusable implementation](references/reusable-implementation.md) before
@@ -96,18 +120,24 @@ designing the public interfaces.
 
 ## Prove the maintained code is used
 
+Honor the delivery constraints when choosing a preview. If installation or host
+configuration is left to the user, use an isolated host or authorized preview
+and keep preview scaffolding outside the delivered host configuration.
 Run the reconstructed entry in the actual output context. Trace its imports
-and resource requests to the maintained build. Use a representative source
-change to prove the rendered result changes, then restore a temporary probe.
+and resource requests to the maintained build; matching downloaded content can
+establish runtime identity. Verify customization separately with a representative
+requested source/config edit and observe the rendered change, then restore any
+temporary probe. In a read-only audit, preserve files and mark unexercised edit
+paths unverified. Runtime identity alone does not establish editability.
 A new folder, exported function, or passing import is insufficient evidence.
 
 Verify independently reusable features on a minimal host page without the
 original application shell. Keep the full-page composition working when both
 deliverables are in scope.
 
-Read [Acceptance and handoff](references/acceptance.md) when validating the
-working slice and final delivery. Match test effort to behavior and uncertainty;
-investigate differences before adding more checks or accepting a tolerance.
+Apply the acceptance checks to the working slice and final delivery. Match test
+effort to behavior and uncertainty; investigate differences before adding more
+checks or accepting a tolerance.
 
 ## Finish at the agreed level
 
