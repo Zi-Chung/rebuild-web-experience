@@ -82,6 +82,10 @@ versus transformed scroll, normalized ranges, time units and easing domains.
 Trace where each progress value is computed. A similarly named ratio is not
 evidence of equivalent inputs.
 
+For interactions whose response depends on input history or time, follow
+[Dynamic interactions](dynamic-interactions.md) to connect these values to
+persistent state and validate the resulting sequence.
+
 Include layout that provides animation time: spacers, sticky ranges, margins,
 pinning and release points. Adapt that geometry to the reusable host while
 preserving the intended sequence and room for following content. Verify forward

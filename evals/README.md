@@ -58,3 +58,26 @@ This fixture covers ordinary DOM, scroll-driven animation, WebGL, host CSS and
 data changes. It does not establish success on every site, CMS, device or GPU.
 Use a real, scoped delivery to check CMS/block behavior when that branch changes;
 do not publish private captures as test data.
+
+## Dynamic interaction evidence
+
+`dynamic-interactions/reference/` is a small original DOM fixture with release
+motion and a scroll-driven story. Serve a temporary workspace containing a copy
+of this reference and a candidate, using a loopback-only static server. The
+[request](dynamic-interactions/request.md) is a read-only comparison task for a
+fresh agent; supply URLs, the Skill and an isolated evidence directory, without
+earlier diagnoses or expected results. Browser tooling comes from the evaluation
+environment, not from the installed Skill.
+
+For a negative candidate, change a history/time-dependent mechanism while
+preserving idle and settled appearance. Keep the mutation out of the evaluator's
+initial packet. Also replay an unchanged copy as a positive control. Review the
+actual captures, input/sample timing and conclusions: the evaluator should
+detect transition differences, explain relevant state/coordinate/time semantics,
+and avoid treating equal endpoints as equivalent motion. Interruption/reversal
+should be checked where they discriminate the scoped behavior. Keep generated
+candidates, recordings and QA records outside the public fixture.
+
+This fixture checks the method on dragging and scroll response. It does not
+establish equivalence for GPU feedback, multitouch, physical devices or every
+possible interaction. Add a targeted scenario when a changed workflow warrants it.

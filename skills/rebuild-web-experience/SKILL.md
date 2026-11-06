@@ -78,6 +78,12 @@ compact feature list linking each visible result to its rendering owner and
 needed dependencies. A DOM outline can be a placeholder for canvas output;
 identify which layer actually draws the effect before choosing an approach.
 
+For interactions that depend on input history or elapsed time—drag/release,
+inertia, scroll-linked transitions, gestures, trails or simulations—read
+[Dynamic interactions](references/dynamic-interactions.md) before choosing an
+implementation. Use its input scenarios and mechanism analysis to establish
+what must match, then replay those scenarios during independent acceptance.
+
 Preserve only the resources and dependency closure needed for the scope. Record
 original URLs and content identities for assets used in the reconstruction;
 keep original artifacts separate from maintained source and the final runtime.

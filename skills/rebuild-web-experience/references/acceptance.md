@@ -43,6 +43,10 @@ or instance isolation when those capabilities are offered.
 
 ## Compare behavior without expanding the assignment
 
+For history- or time-dependent interactions, use the observation, mechanism
+analysis and sequence comparisons in [Dynamic interactions](dynamic-interactions.md).
+Include their observable response in the contract and independent review.
+
 Observe entry, transition, settled and exit states relevant to the feature;
 check reverse scroll/input, resizing and responsive changes when they affect
 its behavior. Align the reference and reconstruction by component state and

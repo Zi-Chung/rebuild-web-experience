@@ -1,0 +1,20 @@
+* { box-sizing: border-box; }
+body { margin: 0; color: #1c2532; background: #edf1f4; font: 16px/1.5 system-ui, sans-serif; }
+main { max-width: 800px; margin: 30px auto; padding: 0 24px; }
+h1 { margin: 0 0 20px; }
+h2 { margin: 0; }
+section { padding: 18px 24px; margin-bottom: 20px; background: white; border-radius: 16px; }
+p { margin: 8px 0 16px; }
+.track { height: 128px; position: relative; overflow: hidden; background: #e6eaf3; border-radius: 12px; }
+.origin { position: absolute; left: 50%; top: 16px; bottom: 16px; border-left: 1px dashed #8493ae; }
+.tile { position: absolute; left: calc(50% - 40px); top: 24px; width: 80px; height: 80px; border: 0; border-radius: 12px; color: white; background: #4243df; font: inherit; cursor: grab; touch-action: none; user-select: none; }
+.tile:active { cursor: grabbing; }
+.status { margin-bottom: 0; min-height: 24px; }
+.story { height: 260px; overflow-y: auto; overscroll-behavior: contain; background: #0e2533; border-radius: 12px; }
+.story-content { height: 1260px; }
+.stage { position: sticky; top: 0; height: 260px; padding: 26px; color: white; overflow: hidden; }
+.meter { height: 8px; background: #314653; border-radius: 4px; overflow: hidden; }
+.fill { width: 100%; height: 100%; background: #88edc3; transform: scaleX(0); transform-origin: left; }
+.orb { position: absolute; top: 94px; left: calc(50% - 24px); width: 48px; height: 48px; background: #88edc3; border-radius: 50%; }
+.phase { position: absolute; left: 26px; bottom: 24px; font-size: 24px; }
+@media (max-width: 560px) { main { padding: 0 12px; } section { padding: 16px; } }

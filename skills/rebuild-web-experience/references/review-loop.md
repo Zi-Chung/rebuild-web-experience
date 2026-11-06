@@ -32,6 +32,11 @@ the implementer's success summary is not acceptance evidence. The reviewer
 reopens the rules, inspects the current output, runs relevant checks and compares
 the reference directly. Verify scope coverage as well as individual criteria.
 
+When complex interactions are included, use the scenarios and evidence in
+[Dynamic interactions](dynamic-interactions.md#carry-dynamic-evidence-into-acceptance).
+Reproduce the input sequence and inspect its evolving output; endpoint images
+and a passing record checker do not establish that the transition matches.
+
 For an existing project, exercise the existing instance/configuration or a
 faithful copy preserving its identifiers and data. A fresh default instance
 does not establish compatibility with existing content. Label simulated platform

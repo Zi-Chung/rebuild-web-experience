@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Motion study</title>
+  <link rel="stylesheet" href="./style.css">
+  <main>
+    <h1>Motion study</h1>
+    <section>
+      <h2>Release</h2>
+      <p>Drag the tile, release it, or catch it while it returns.</p>
+      <div class="track"><div class="origin"></div><button class="tile" aria-label="Drag tile">Drag</button></div>
+      <p class="status" aria-live="polite">Ready</p>
+    </section>
+    <section>
+      <h2>Scroll story</h2>
+      <p>Scroll inside the panel, pause, then reverse.</p>
+      <div class="story" tabindex="0" aria-label="Scroll story">
+        <div class="story-content">
+          <div class="stage">
+            <div class="meter"><div class="fill"></div></div>
+            <div class="orb"></div>
+            <strong class="phase">Discover</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="./motion.js"></script>
+</html>
