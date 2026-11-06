@@ -7,6 +7,11 @@ requests. Follow lazy imports through the in-scope states; an initial-page
 download alone can omit most of a feature. Retain resource versions and source
 identities so later comparisons use a known reference.
 
+Use the clean-reference checkpoint in [Preflight](preflight.md) before treating
+diagnostic DOM, canvas, clock or scroll overrides as evidence of appearance or
+behavior. Rendering ownership and critical recovery paths must be independently
+checked before the extraction plan is accepted.
+
 Map visible features to DOM/CSS, canvas/WebGL and any shared scene or scroll
 controller. Follow masks, background transitions, screen-space paint, geometry
 and postprocessing needed to produce the selected region. Extract or adapt

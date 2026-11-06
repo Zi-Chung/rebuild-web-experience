@@ -5,4 +5,5 @@ node_modules/
 skills-lock.json
 evals/graphics-host/output*/
 evals/graphics-host/rebuild*/
+evals/cold-start-scene/reconstruction/
 __pycache__/

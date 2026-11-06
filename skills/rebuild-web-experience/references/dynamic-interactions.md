@@ -9,6 +9,10 @@ device the reference does not support does not become an extra requirement.
 
 ## Observe a sequence, not just its endpoints
 
+Use the trustworthy-reference checkpoint in [Preflight](preflight.md) first.
+An interaction observed with rendering hidden or state forced is a diagnostic
+probe until clean-page replay establishes the real response.
+
 Start from a known visible state with resources loaded. Separate the component's
 input-driven response from autonomous motion. Vary one useful input dimension
 at a time to learn which history matters:
@@ -104,7 +108,8 @@ For each included complex interaction, put observable sequence expectations in
 the acceptance contract. Supply the starting/reset conditions, reproducible
 input and timing, reference/candidate captures and relevant measurements for
 the reviewed revision. Keep these in the existing QA record; a new schema or
-test framework is unnecessary. Describe the tested conditions and remaining
+test framework for motion samples is unnecessary. Attach critical-proof approvals
+through the shared version-2 acceptance records. Describe the tested conditions and remaining
 uncertainty rather than claiming universal equivalence.
 
 The independent reviewer replays the discriminating scenarios and inspects the

@@ -10,14 +10,17 @@ the user can run, change, and reuse. Give each requested feature an understandab
 maintenance entry point. A running copy of an opaque original application is
 an intermediate reference, not the finished reconstruction.
 
-## Establish the contract
+## Preserve the request and propose the scope
 
 Accept a URL and a bounded scope: routes, a page region, an effect, interactions,
 or a combination. Resolve the scope from the conversation before asking again.
-Record these in the project's normal documentation:
+Preserve the original request verbatim in the project's normal QA/documentation
+location, including subsequent user-authorized changes. Keep this source separate
+from the agent's interpretation. Propose these requirements from it:
 
-- Target URL and included routes/components, with important visible states and
-  explicit exclusions.
+- Target URL and included routes/components, with important visible states.
+  Give exclusions their user-provided basis; a rendering dependency or difficult
+  effect is not an exclusion.
 - Behaviors to preserve and aspects the user needs to customize.
 - Output location/stack, reuse needs, and target viewport(s).
 - Delivery constraints, such as files to supply and host configuration to leave
@@ -42,9 +45,12 @@ reference; the user need not enumerate them. Keep the surrounding page outside
 the deliverable except for dependencies needed to preserve the selected effect.
 
 Read [Acceptance and handoff](references/acceptance.md) before implementation.
-Use its feature checks to guide the working slice and final comparison. Read
-[Independent review loop](references/review-loop.md) to prepare the acceptance
-contract and arrange independent review before starting the final candidate.
+Use [Preflight: reference, scope and critical effects](references/preflight.md)
+to establish a trustworthy reference and obtain independent scope approval
+before committing to the implementation plan. Use the same unchanged request
+in every checkpoint and final contract. Read [Independent review loop](references/review-loop.md)
+for reviewer dispatch and the executable gate. A draft contract is subject to
+coverage review; freeze confirmed obligations, not unreviewed omissions.
 Exact pixel equality across devices, real third-party submissions and production
 publishing remain additional tasks only when requested. That distinction does
 not permit missing effects, different motion or visibly different layouts.
@@ -78,6 +84,12 @@ compact feature list linking each visible result to its rendering owner and
 needed dependencies. A DOM outline can be a placeholder for canvas output;
 identify which layer actually draws the effect before choosing an approach.
 
+Keep a clean reference for fidelity judgments. Diagnostic changes to rendering,
+styles, clocks or scroll state belong to a separate probe; verify the clean
+page again before treating those measurements as reference behavior. The
+preflight reviewer confirms reachable, positively rendered reference states
+and checks scope independently of the proposed implementation.
+
 For interactions that depend on input history or elapsed time—drag/release,
 inertia, scroll-linked transitions, gestures, trails or simulations—read
 [Dynamic interactions](references/dynamic-interactions.md) before choosing an
@@ -99,10 +111,14 @@ effects, shaders, data textures or resource URL failures, read
 
 ## Reconstruct a working slice
 
-Start with one complete in-scope feature from source through build to browser.
-Use this slice to verify asset resolution, imports, styling and initialization
-before expanding. Do not postpone actual runtime integration until all files
-have been prettified.
+After scope approval, choose the smallest working slice that resolves the most
+uncertain in-scope rendering or interaction path. Build it from maintained
+source through browser output and compare it with the clean reference using
+the discriminating input sequence. Obtain independent approval of each critical
+proof before treating that recovery/reimplementation approach as established.
+Simple features may have no critical proof when the scope reviewer justifies
+that decision. Follow [Preflight](references/preflight.md) for the evidence and
+checkpoint records; continue unrelated useful work while a path is unresolved.
 
 Restore semantic names and normal authoring constructs where supported by
 evidence. Separate application logic, third-party dependencies, assets, and
@@ -150,7 +166,7 @@ checks or accepting a tolerance.
 ## Close the acceptance loop
 
 Submit the current candidate to a separate reviewer agent/session using the
-original request, this Skill, applicable project instructions and actual runtime.
+verbatim original request, this Skill, applicable project instructions and actual runtime.
 The reviewer checks the full required scope and gathers evidence directly.
 Return failed or unverified required items to implementation, fix them, then
 obtain independent re-review of the changed candidate and affected regressions.
@@ -165,7 +181,8 @@ it cannot satisfy the independent-review gate.
 ## Deliver after acceptance
 
 Declare completion and hand off a finished reconstruction only after independent
-review and the completion check pass for the current candidate. A progress or
+review and the completion check pass for the current candidate, including the
+pinned preflight and critical-proof approvals. A progress or
 blocked report may describe existing artifacts, but must retain failed/unverified
 items and must not claim the reconstruction is complete.
 

@@ -81,3 +81,20 @@ candidates, recordings and QA records outside the public fixture.
 This fixture checks the method on dragging and scroll response. It does not
 establish equivalence for GPU feedback, multitouch, physical devices or every
 possible interaction. Add a targeted scenario when a changed workflow warrants it.
+
+## Cold-start reconstruction
+
+Use [cold-start-scene](cold-start-scene/README.md) to test the full workflow from
+a URL and an empty output directory. Give a fresh agent the Skill, the raw user
+brief and normal browser/development capabilities. Keep authoring sources,
+private grading notes, earlier diagnoses and candidate implementations out of
+its input and permitted resources; delivered minified browser resources remain
+valid recovery evidence.
+
+Observe the reference/scope checkpoint, critical-effect proofs, implementation
+and independent final review. Review the actual runnable source, customization
+and minimal-host reuse, not only the acceptance JSON. Keep failed rounds and
+repairs. A negative-candidate audit or an unchanged reference as a positive
+control is useful for testing review methods, but does not establish that a
+fresh agent can reconstruct a complex experience. This fixture is a bounded
+scenario, not a universal website/device success claim.

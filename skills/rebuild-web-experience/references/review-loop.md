@@ -6,14 +6,18 @@ site names, fixed item counts and a particular host are not universal standards.
 
 ## Establish the acceptance contract
 
-Before implementation, record the original request and required outcomes from
-this Skill and applicable project instructions. Give each criterion a stable ID,
-observable expectation and basis. Distinguish optional checks from obligations.
+Preserve the original request verbatim and propose required outcomes from
+this Skill and applicable project instructions. Complete the reference/scope
+checkpoints in [Preflight](preflight.md) before accepting the implementation plan.
+Give each criterion a stable ID, observable expectation and basis. Distinguish
+optional checks from obligations.
 Use the project's QA location or a temporary review workspace, outside deployment
 configuration when the user leaves installation/configuration for later.
 
-The original request remains authoritative. A reviewer must add missing required
-coverage if the contract overlooks it. Preserve existing criterion IDs and
+The original request remains authoritative. A reviewer must flag missing required
+coverage and obtain an amended contract/re-review if the proposal overlooks it.
+"Do not edit the contract" limits file writes, not the authority to fail incomplete
+coverage. Preserve existing criterion IDs and
 standards through repairs; only an actual user scope change can remove or relax
 an included obligation. Record the change and its basis before reviewing again.
 
@@ -21,10 +25,14 @@ an included obligation. Record the change and its basis before reviewing again.
 
 Use a separate agent/session that did not implement the candidate. Give it:
 
-- The original request, this Skill and applicable project instructions.
+- The original request verbatim, this Skill and applicable project instructions.
 - The acceptance contract, reference URL/artifacts and relevant baseline data.
 - Current source/build locations, a file-hash revision manifest, runtime/preview
   instructions and the permitted access boundaries.
+
+Follow [Preflight's dispatch method](preflight.md#checkpoint-records-and-dispatch)
+so the reviewer can challenge scope independently. Pass user-supported exclusions
+with their basis; an implementer's narrowed brief cannot replace the request.
 
 Ask it to determine whether the candidate meets the contract, not to endorse
 the implementer's conclusion. Supply raw artifacts and commands as needed;
@@ -89,6 +97,8 @@ Contract shape (add the other criteria required by the actual request):
 
 ```json
 {
+  "schema_version": 2,
+  "mode": "audit",
   "request": "The original user request, including constraints.",
   "criteria": [
     {
@@ -100,6 +110,37 @@ Contract shape (add the other criteria required by the actual request):
   ]
 }
 ```
+
+Use `mode: "audit"` for an authorized read-only comparison or checkpoint, not
+for a finished reconstruction. A complete delivery uses `mode: "rebuild"` and
+also includes the following fields. Retain the same verbatim `request` and all
+required final criteria:
+
+```json
+{
+  "preflight": {
+    "contract": { "path": "qa/preflight/contract.json", "sha256": "contract SHA-256" },
+    "report": { "path": "qa/preflight/review.json", "sha256": "report SHA-256" }
+  },
+  "critical_features": ["rendering"],
+  "proofs": [
+    {
+      "id": "rendering",
+      "contract": { "path": "qa/proofs/rendering-contract.json", "sha256": "contract SHA-256" },
+      "report": { "path": "qa/proofs/rendering-review.json", "sha256": "report SHA-256" }
+    }
+  ]
+}
+```
+
+The preflight contract has `schema_version: 2`, `mode: "audit"`, required
+`reference.validity` and `scope.coverage` criteria and its independently reviewed
+`critical_features` list. A proof contract is an audit with required
+`critical.<id>`. Every child contract repeats the parent's exact original request.
+The child's implementer identity matches the final implementer; its reviewer is
+distinct. Declare one proof per critical ID; an independently justified empty
+list has `proofs: []`. Source/build changes affecting a proof require review
+again and updated child and parent hashes. Audit records do not chain prerequisites.
 
 Review shape:
 
@@ -125,11 +166,17 @@ Review shape:
 
 The checker rejects missing/duplicate criteria, required non-passes, missing or
 changed evidence, a changed contract/candidate, and records without a distinct
-independent reviewer. Optional failures/unverified checks remain visible without
+independent reviewer. For rebuilds it also validates the pinned preflight and
+every critical proof, their required checks, consistent request/identities and
+current source/evidence hashes. Missing or stale checkpoint approvals block
+handoff even when the final result list is green. Version-1 records need migration
+and the newly required verification; adding a version field alone is insufficient.
+Optional failures/unverified checks remain visible without
 blocking the required scope. Its JSON `ready` result and exit code are usable
 by an outer agent runner or CI: only exit 0 permits a completed handoff.
 
 This is a record/freshness gate. It does not determine visual equivalence, prove
-the reviewer's identity, or detect an intentionally incomplete source manifest;
+the reviewer's identity or actual checkpoint order, or detect an intentionally
+incomplete source/critical-feature manifest;
 the independent reviewer must establish those facts. Re-run it after the last
 change. If execution is unavailable, report the final gate pending, not passed.

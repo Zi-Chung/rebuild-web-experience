@@ -4,6 +4,11 @@
 
 Judge the requested scope against observable results:
 
+For a rebuild, clear [Preflight](preflight.md) before accepting the implementation
+approach: trustworthy reference, independently reconciled scope, and approved
+working proofs of identified critical effects. A final record that omits those
+checks does not establish reconstruction completion.
+
 | Criterion | Evidence |
 | --- | --- |
 | Runs | The delivered entry builds/starts using the documented commands and renders the intended content/effect. |
